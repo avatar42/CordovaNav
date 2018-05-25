@@ -1,0 +1,18 @@
+.vs/
+App/bld/
+App/bin/
+App/platforms/
+App/plugins/
+App/node_modules/
+App/bower_components/
+App/typings/
+App/scss/vendor/
+App/www/debug/
+App/www/release/
+App/www/modules/
+App/www/libs/
+App/www/fonts/
+App/Cordova_App.vstemplate
+Visual Studio Template/
+Visual Studio Template/bin/
+Visual Studio Template/obj/
