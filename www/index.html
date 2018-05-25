@@ -1,49 +1,536 @@
-<!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'; media-src *"
+        >
+        <meta
+            name="format-detection"
+            content="telephone=no"
+        >
+        <meta
+            name="msapplication-tap-highlight"
+            content="no"
+        >
+        <meta
+            name="viewport"
+            content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"
+        >
+        <link rel="stylesheet" type="text/css" href="css/iconfont/material-icons.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
+        <title>Cordova Menu</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+        <div id="overlay"></div>
+        <div id="sidemenu">
+            <div class="sidemenu-header">
+                <div>
+                    <a
+                        href="#"
+                        id="sidemenu-close"
+                    >
+                        <i class="material-icons">cancel</i>
+                    </a>
+                </div>
+            </div>
+            <ul class="options">
+                <li>
+                    <h2>Primary Views</h2>
+                </li>
+                <li class="active">
+                    <a
+                        href="javascript:jump('home');"
+                        class="cfx-topbar-menu"
+                        data-index="1"
+                    >
+                        <i
+                            data-index="1"
+                            class="material-icons"
+                        >
+                            home
+                        </i>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="javascript:jump('note');"
+                        class="cfx-topbar-menu"
+                        data-index="2"
+                    >
+                        <i
+                            data-index="2"
+                            class="material-icons"
+                        >
+                            note
+                        </i>
+                        Scroll Example
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="javascript:jump('list');"
+                        class="cfx-topbar-menu"
+                        data-index="3"
+                    >
+                        <i
+                            data-index="3"
+                            class="material-icons"
+                        >
+                            list
+                        </i>
+                        List Example
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="javascript:jump('today');"
+                        class="cfx-topbar-menu"
+                        data-index="4"
+                    >
+                        <i
+                            data-index="4"
+                            class="material-icons"
+                        >
+                            today
+                        </i>
+                        Calendar Example
+                    </a>
+                </li>
+
+                <li>
+                    <h2>Secondary Views</h2>
+                </li>
+                <li>
+                    <a
+                        href="#"
+                        class="dashboard"
+                    >
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="#"
+                        class="group_work"
+                    >
+                        Group Work
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="#"
+                        class="search"
+                    >
+                        Search
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="#"
+                        class="share"
+                    >
+                        Share
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- cfx-topbar -->
+        <!-- See https://material.io/tools/icons/?style=baseline -->
+        <div
+            id="cfx-topbar"
+            data-index="4"
+        >
+            <ul id="cfx-topbar-menu">
+                <li>
+                    <a
+                        href="#"
+                        class="cfx-topbar-menu"
+                        data-index="0"
+                    >
+                        <i
+                            id="sidemenu-open"
+                            class="material-icons"
+                        >
+                            menu
+                        </i>
+                    </a>
+                </li>
+                <li class="active">
+                    <a
+                        href="javascript:jump('home');"
+                        class="cfx-topbar-menu"
+                        data-index="1"
+                    >
+                        <i
+                            data-index="1"
+                            class="material-icons"
+                        >
+                            home
+                        </i>
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="javascript:jump('note');"
+                        class="cfx-topbar-menu"
+                        data-index="2"
+                    >
+                        <i
+                            data-index="2"
+                            class="material-icons"
+                        >
+                            note
+                        </i>
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="javascript:jump('list');"
+                        class="cfx-topbar-menu"
+                        data-index="3"
+                    >
+                        <i
+                            data-index="3"
+                            class="material-icons"
+                        >
+                            list
+                        </i>
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="javascript:jump('today');"
+                        class="cfx-topbar-menu"
+                        data-index="4"
+                    >
+                        <i
+                            data-index="4"
+                            class="material-icons"
+                        >
+                            today
+                        </i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div
+            id="myCarousel"
+            class="carousel slide"
+            data-ride="carousel"
+            data-interval="false"
+        >
+            <div
+                class="carousel-inner"
+                role="listbox"
+            >
+                <div
+                    id="home"
+                    class="item view active"
+                >
+                    <div class="page-wrapper">
+                        <h2>Home</h2>
+                        <div class="app">
+                            <h1>Apache Cordova</h1>
+                            <div
+                                id="deviceready"
+                                class="blink"
+                            >
+                                <p class="event listening">Connecting to Device</p>
+                                <p class="event received">Device is Ready</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    id="note"
+                    class="item view"
+                >
+                    <div class="page-wrapper">
+                        <h2>Page 2 scoll example</h2>
+                        <p>
+                            Lorem ipsum dolor sit amet, vix clita vitae debitis ne. Ut eros porro facete has, sed an recusabo delicatissimi, nam ei elit graeco dissentiet. Ex cum homero copiosae, id sed utamur consectetuer. Zril utamur in his, et dico movet munere sit, ea usu prima cetero tractatos. His no cibo illud, ei vidisse volutpat pro, erroribus repudiare ut per.
+                        </p>
+                        <p>
+                            No insolens euripidis moderatius duo, mea quando dignissim an. Cetero inermis ut vis, vim iracundia rationibus an. Ut qui malis quaestio, sea at brute mandamus. Eam cu bonorum delicata, vim sonet percipitur sadipscing no. Quot habeo erroribus vel ex.
+                        </p>
+                        <p>
+                            Eu cum menandri incorrupte, vis et doming legimus utroque. Mei at solum putant, sea ut omittam omittantur, amet saperet sit in. Nibh eloquentiam ea mel. Eum ad tollit impetus euripidis, corpora ponderum accommodare ut mel. Exerci constituam ex sit, elit dissentias pri eu, et has unum error habemus.
+                        </p>
+                        <p>
+                            Dicat labore dignissim mea ei, an similique reformidans adversarium usu. Cu inani possim everti pro, ea noster denique elaboraret nec, vituperata dissentiunt et nec. Sit ut ludus audire facilisis. Duo illud molestie oportere ei. Cum ad errem laoreet. Pri an amet etiam splendide, eam ex falli similique.
+                        </p>
+                        <p>
+                            Ea ipsum laudem dissentiunt has. Sumo causae ei nam, eruditi molestiae dissentiet mei te. Mazim alterum cu per, munere civibus et ius. Eripuit apeirian at eum, est et nisl erat patrioque, labores omnesque salutandi ius id. Cu prodesset disputationi cum.
+                        </p>
+                        <p>
+                            Lorem ipsum dolor sit amet, vix clita vitae debitis ne. Ut eros porro facete has, sed an recusabo delicatissimi, nam ei elit graeco dissentiet. Ex cum homero copiosae, id sed utamur consectetuer. Zril utamur in his, et dico movet munere sit, ea usu prima cetero tractatos. His no cibo illud, ei vidisse volutpat pro, erroribus repudiare ut per.
+                        </p>
+                        <p>
+                            No insolens euripidis moderatius duo, mea quando dignissim an. Cetero inermis ut vis, vim iracundia rationibus an. Ut qui malis quaestio, sea at brute mandamus. Eam cu bonorum delicata, vim sonet percipitur sadipscing no. Quot habeo erroribus vel ex.
+                        </p>
+                        <p>
+                            Eu cum menandri incorrupte, vis et doming legimus utroque. Mei at solum putant, sea ut omittam omittantur, amet saperet sit in. Nibh eloquentiam ea mel. Eum ad tollit impetus euripidis, corpora ponderum accommodare ut mel. Exerci constituam ex sit, elit dissentias pri eu, et has unum error habemus.
+                        </p>
+                        <p>
+                            Dicat labore dignissim mea ei, an similique reformidans adversarium usu. Cu inani possim everti pro, ea noster denique elaboraret nec, vituperata dissentiunt et nec. Sit ut ludus audire facilisis. Duo illud molestie oportere ei. Cum ad errem laoreet. Pri an amet etiam splendide, eam ex falli similique.
+                        </p>
+                        <p>
+                            Ea ipsum laudem dissentiunt has. Sumo causae ei nam, eruditi molestiae dissentiet mei te. Mazim alterum cu per, munere civibus et ius. Eripuit apeirian at eum, est et nisl erat patrioque, labores omnesque salutandi ius id. Cu prodesset disputationi cum.
+                        </p>
+                        <p>
+                            Lorem ipsum dolor sit amet, vix clita vitae debitis ne. Ut eros porro facete has, sed an recusabo delicatissimi, nam ei elit graeco dissentiet. Ex cum homero copiosae, id sed utamur consectetuer. Zril utamur in his, et dico movet munere sit, ea usu prima cetero tractatos. His no cibo illud, ei vidisse volutpat pro, erroribus repudiare ut per.
+                        </p>
+                        <p>
+                            No insolens euripidis moderatius duo, mea quando dignissim an. Cetero inermis ut vis, vim iracundia rationibus an. Ut qui malis quaestio, sea at brute mandamus. Eam cu bonorum delicata, vim sonet percipitur sadipscing no. Quot habeo erroribus vel ex.
+                        </p>
+                        <p>
+                            Eu cum menandri incorrupte, vis et doming legimus utroque. Mei at solum putant, sea ut omittam omittantur, amet saperet sit in. Nibh eloquentiam ea mel. Eum ad tollit impetus euripidis, corpora ponderum accommodare ut mel. Exerci constituam ex sit, elit dissentias pri eu, et has unum error habemus.
+                        </p>
+                        <p>
+                            Dicat labore dignissim mea ei, an similique reformidans adversarium usu. Cu inani possim everti pro, ea noster denique elaboraret nec, vituperata dissentiunt et nec. Sit ut ludus audire facilisis. Duo illud molestie oportere ei. Cum ad errem laoreet. Pri an amet etiam splendide, eam ex falli similique.
+                        </p>
+                        <p>
+                            Ea ipsum laudem dissentiunt has. Sumo causae ei nam, eruditi molestiae dissentiet mei te. Mazim alterum cu per, munere civibus et ius. Eripuit apeirian at eum, est et nisl erat patrioque, labores omnesque salutandi ius id. Cu prodesset disputationi cum.
+                        </p>
+                    </div>
+                </div>
+                <div
+                    id="list"
+                    class="item view"
+                >
+                    <div class="page-wrapper">
+                        <h2>Page 3 List example</h2>
+                        <div class="w3-white w3-padding">
+                            <table id="customers">
+                                <tbody>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Contact</th>
+                                        <th>Country</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Alfreds Futterkiste</td>
+                                        <td>Maria Anders</td>
+                                        <td>Germany</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Centro comercial Moctezuma</td>
+                                        <td>Francisco Chang</td>
+                                        <td>Mexico</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ernst Handel</td>
+                                        <td>Roland Mendel</td>
+                                        <td>Austria</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Island Trading</td>
+                                        <td>Helen Bennett</td>
+                                        <td>UK</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Laughing Bacchus Winecellars</td>
+                                        <td>Yoshi Tannamuri</td>
+                                        <td>Canada</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Magazzini Alimentari Riuniti</td>
+                                        <td>Giovanni Rovelli</td>
+                                        <td>Italy</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alfreds Futterkiste</td>
+                                        <td>Maria Anders</td>
+                                        <td>Germany</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Centro comercial Moctezuma</td>
+                                        <td>Francisco Chang</td>
+                                        <td>Mexico</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ernst Handel</td>
+                                        <td>Roland Mendel</td>
+                                        <td>Austria</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Island Trading</td>
+                                        <td>Helen Bennett</td>
+                                        <td>UK</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Laughing Bacchus Winecellars</td>
+                                        <td>Yoshi Tannamuri</td>
+                                        <td>Canada</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Magazzini Alimentari Riuniti</td>
+                                        <td>Giovanni Rovelli</td>
+                                        <td>Italy</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    id="today"
+                    class="item view"
+                >
+                    <div class="page-wrapper">
+                        <a name="today"></a>
+                        <h2>Page 4 Calendar example</h2>
+                        <iframe
+                            src="https://calendar.google.com/calendar/embed?title=Scheduled%20time&mode=WEEK&height=600&wkst=1&bgcolor=%23FFFFFF&src=deabigt%40gmail.com&color=%2329527A&src=kd46fgvscq0ld2a90vvc1mc8e4%40group.calendar.google.com&color=%2342104A&src=en.usa%23holiday%40group.v.calendar.google.com&color=%230F4B38&src=n7ottgmc4oeq06hgmtbklq5bl4%40group.calendar.google.com&color=%231B887A&src=ei90rv9ggaehf0se1hd6nt8kl8%40group.calendar.google.com&color=%23B1440E&src=ekviqsljrubhfitpbsa6crvr3g%40group.calendar.google.com&color=%232952A3&src=24sv3eak8lpdb26n5pknou5ni8%40group.calendar.google.com&color=%23875509&ctz=America%2FChicago"
+                            style="border:solid 1px #777"
+                            width="100%"
+                            height="100%"
+                            frameborder="0"
+                            scrolling="no"
+                        ></iframe>
+                    </div>
+                </div>
             </div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+
+        <div
+            id="dashboard"
+            class="secondary-view"
+        >
+            <div class="secondary-view-toolbar">
+                <div
+                    class="navbar"
+                    data-role="navbar"
+                >
+                    <ul class="cfx-menu">
+                        <li class="back-button">
+                            <a
+                                href="javascript:exitSecondaryView('dashboard');"
+                                class="back"
+                            >
+                                <i class="material-icons">arrow_back</i>
+                                <br>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-wrapper">
+                <h4>dashboard</h4>
+                <div class="content-wrapper">
+                    A secondary view page for holding dashboard info
+                </div>
+            </div>
+        </div>
+
+        <div
+            id="group_work"
+            class="secondary-view"
+        >
+            <div class="secondary-view-toolbar">
+                <div
+                    class="navbar"
+                    data-role="navbar"
+                >
+                    <ul class="cfx-menu">
+                        <li class="back-button">
+                            <a
+                                href="javascript:exitSecondaryView('group_work');"
+                                class="back"
+                            >
+                                <i class="material-icons">arrow_back</i>
+                                <br>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-wrapper">
+                <h4>Group Work</h4>
+                <div class="content-wrapper">
+                    A secondary view page for holding Group Work info
+                </div>
+            </div>
+        </div>
+        <div
+            id="search"
+            class="secondary-view"
+        >
+            <div class="secondary-view-toolbar">
+                <div
+                    class="navbar"
+                    data-role="navbar"
+                >
+                    <ul class="cfx-menu">
+                        <li class="back-button">
+                            <a
+                                href="javascript:exitSecondaryView('search');"
+                                class="back"
+                            >
+                                <i class="material-icons">arrow_back</i>
+                                <br>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-wrapper">
+                <h4>Search</h4>
+                <div class="content-wrapper">
+                    A secondary view page for holding Search form
+                </div>
+            </div>
+        </div>
+        <div
+            id="share"
+            class="secondary-view"
+        >
+            <div class="secondary-view-toolbar">
+                <div
+                    class="navbar"
+                    data-role="navbar"
+                >
+                    <ul class="cfx-menu">
+                        <li class="back-button">
+                            <a
+                                href="javascript:exitSecondaryView('share');"
+                                class="back"
+                            >
+                                <i class="material-icons">arrow_back</i>
+                                <br>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-wrapper">
+                <h4>Share</h4>
+                <div class="content-wrapper">
+                    A secondary view page for holding Share form
+                </div>
+            </div>
+        </div>
+        <script
+            type="text/javascript"
+            src="cordova.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="js/jquery.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="js/bootstrap.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="js/jquery.touchSwipe.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="js/index.js"
+        ></script>
     </body>
 </html>
